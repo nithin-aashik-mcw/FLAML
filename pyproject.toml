@@ -59,6 +59,7 @@ test = [
     "thop; platform_machine != 'ARM64'",
     "pytest>=6.1.1",
     "pytest-rerunfailures>=13.0",
+    "pytest-asyncio; platform_machine == 'ARM64'",
     "coverage>=5.3",
     "pre-commit",
     "torch; platform_machine != 'ARM64'",

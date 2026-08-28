@@ -179,12 +179,17 @@ def test_numpy_large():
 
 def load_multi_dataset():
     """multivariate time series forecasting dataset"""
+    import urllib.error
+
     import pandas as pd
 
     # pd.set_option("display.max_rows", None, "display.max_columns", None)
-    df = pd.read_csv(
-        "https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/nyc_energy_consumption.csv"
-    )
+    try:
+        df = pd.read_csv(
+            "https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/nyc_energy_consumption.csv"
+        )
+    except (urllib.error.URLError, ConnectionError, OSError) as e:
+        pytest.skip(f"could not download dataset: {e}")
     # preprocessing data
     df["timeStamp"] = pd.to_datetime(df["timeStamp"]).dt.floor("D")
     df = df.groupby("timeStamp", as_index=False).mean(numeric_only=True)
@@ -196,6 +201,10 @@ def load_multi_dataset():
 
 
 def test_multivariate_forecast_num(budget=5, estimators_when_no_prophet=["arima", "sarimax", "holt-winters"]):
+    try:
+        import prophet  # noqa: F401
+    except ImportError:
+        pytest.importorskip("statsmodels")
     df = load_multi_dataset()
     # split data into train and test
     time_horizon = 180
@@ -326,6 +335,10 @@ def load_multi_dataset_cat(time_horizon):
 
 
 def test_multivariate_forecast_cat(budget=5, estimators_when_no_prophet=["arima", "sarimax", "holt-winters"]):
+    try:
+        import prophet  # noqa: F401
+    except ImportError:
+        pytest.importorskip("statsmodels")
     time_horizon = 180
     train_df, test_df = load_multi_dataset_cat(time_horizon)
     X_test = test_df[

@@ -200,12 +200,17 @@ def _test_sparse_matrix_classification(estimator):
 
 def load_multi_dataset():
     """multivariate time series forecasting dataset"""
+    import urllib.error
+
     import pandas as pd
 
     # pd.set_option("display.max_rows", None, "display.max_columns", None)
-    df = pd.read_csv(
-        "https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/nyc_energy_consumption.csv"
-    )
+    try:
+        df = pd.read_csv(
+            "https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/nyc_energy_consumption.csv"
+        )
+    except (urllib.error.URLError, ConnectionError, OSError) as e:
+        pytest.skip(f"could not download dataset: {e}")
     # preprocessing data
     df["timeStamp"] = pd.to_datetime(df["timeStamp"]).dt.floor("D")
     df = df.groupby("timeStamp", as_index=False).mean(numeric_only=True)
@@ -340,15 +345,19 @@ class TestExtraModel(unittest.TestCase):
         _test_forecast("lassolars")
 
     def test_seasonal_naive(self):
+        pytest.importorskip("statsmodels")
         _test_forecast("snaive")
 
     def test_naive(self):
+        pytest.importorskip("statsmodels")
         _test_forecast("naive")
 
     def test_seasonal_avg(self):
+        pytest.importorskip("statsmodels")
         _test_forecast("savg")
 
     def test_avg(self):
+        pytest.importorskip("statsmodels")
         _test_forecast("avg")
 
     @unittest.skipIf(skip_spark or not _pl_installed, reason="Skip on Mac or Windows or no pytorch_lightning.")
