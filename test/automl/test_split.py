@@ -184,7 +184,13 @@ def test_groups_with_sample_weights():
 
 
 def test_stratified_groupkfold():
-    from minio.error import ServerError
+    try:
+        from minio.error import ServerError
+    except ImportError:
+
+        class ServerError(Exception):
+            pass
+
     from sklearn.model_selection import StratifiedGroupKFold
 
     from flaml.automl.data import load_openml_dataset

@@ -46,7 +46,7 @@ spark = [
     "joblib<=1.3.2",
 ]
 test = [
-    "cryptography==46.0.3; platform_machine == 'ARM64'",
+    "cryptography==46.0.3",
     "numpy>=1.17,<2.0.0; python_version<'3.13'",
     "numpy>=1.17; python_version>='3.13'",
     "jupyter",
@@ -69,8 +69,7 @@ test = [
     "openml; platform_machine != 'ARM64'",
     "statsmodels>=0.12.2; platform_machine != 'ARM64'",
     "psutil",
-    "transformers[torch]; platform_machine != 'ARM64'",
-    "transformers; platform_machine == 'ARM64'",
+    "transformers[torch]",
     "datasets; platform_machine != 'ARM64'",
     "evaluate; platform_machine != 'ARM64'",
     "nltk!=3.8.2",
