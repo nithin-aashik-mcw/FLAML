@@ -5,7 +5,7 @@ name: Build
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'ci_test']
     paths:
       - 'flaml/**'
       - 'test/**'
