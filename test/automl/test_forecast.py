@@ -12,6 +12,7 @@ from flaml.automl.task.time_series_task import TimeSeriesTask
 
 def test_forecast_automl(budget=20, estimators_when_no_prophet=["arima", "sarimax", "holt-winters"]):
     # using dataframe
+    pytest.importorskip("statsmodels")
     import statsmodels.api as sm
 
     data = sm.datasets.co2.load_pandas().data["co2"].resample("MS").mean()
@@ -402,6 +403,7 @@ def test_multivariate_forecast_cat(budget=5, estimators_when_no_prophet=["arima"
 
 
 def test_forecast_classification(budget=5):
+    pytest.importorskip("hcrystalball")
     from hcrystalball.utils import get_sales_data
 
     time_horizon = 30
@@ -681,6 +683,7 @@ def test_cv_step():
 
 def test_log_training_metric_ts_models():
     """Test that log_training_metric=True works with time series models (arima, sarimax, holt-winters)."""
+    pytest.importorskip("statsmodels")
     import statsmodels.api as sm
 
     from flaml.automl.task.time_series_task import TimeSeriesTask

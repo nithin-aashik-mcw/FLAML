@@ -1,6 +1,8 @@
+import importlib.util
 from urllib.error import URLError
 
 import pandas as pd
+import pytest
 from sklearn.datasets import fetch_california_housing, fetch_openml
 
 from flaml import AutoML
@@ -11,6 +13,7 @@ class TestScore:
         import pickle
 
         # using dataframe
+        pytest.importorskip("statsmodels")
         import statsmodels.api as sm
 
         data = sm.datasets.co2.load_pandas().data["co2"].resample("MS").mean()
@@ -155,6 +158,8 @@ class TestScore:
             "catboost",
             "kneighbor",
         ]:
+            if each_estimator == "catboost" and importlib.util.find_spec("catboost") is None:
+                continue
             automl_settings = {
                 "time_budget": 2,
                 "task": "regression",

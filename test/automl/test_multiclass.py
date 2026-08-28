@@ -1,6 +1,7 @@
 import unittest
 
 import numpy as np
+import pytest
 import scipy.sparse
 from sklearn.datasets import load_iris, load_wine
 
@@ -163,6 +164,7 @@ class TestMultiClass(unittest.TestCase):
             return
 
     def test_ensemble(self):
+        pytest.importorskip("catboost")
         automl = AutoML()
         automl.add_learner(learner_name="RGF", learner_class=MyRegularizedGreedyForest)
         X_train, y_train = load_wine(return_X_y=True)
@@ -472,6 +474,7 @@ class TestMultiClass(unittest.TestCase):
         print(automl_experiment.model)
 
     def test_time_limit(self):
+        pytest.importorskip("catboost")
         automl_experiment = AutoML()
         automl_experiment.add_learner(learner_name="large_lgbm", learner_class=MyLargeLGBM)
         automl_experiment.add_learner(learner_name="large_xgb", learner_class=MyLargeXGB)

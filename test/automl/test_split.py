@@ -1,3 +1,4 @@
+import importlib.util
 from urllib.error import URLError
 
 import numpy as np
@@ -92,7 +93,11 @@ def test_groups_for_classification_task():
         "model_history": True,
         "eval_method": "cv",
         "groups": np.random.randint(low=0, high=10, size=len(y)),
-        "estimator_list": ["catboost", "lgbm", "rf", "xgboost", "kneighbor"],
+        "estimator_list": [
+            e
+            for e in ["catboost", "lgbm", "rf", "xgboost", "kneighbor"]
+            if e != "catboost" or importlib.util.find_spec("catboost") is not None
+        ],
         "learner_selector": "roundrobin",
     }
     automl.fit(X, y, **automl_settings)
@@ -198,13 +203,17 @@ def test_stratified_groupkfold():
         "split_type": splitter,
         "groups": X_train["Airline"],
         "estimator_list": [
-            "catboost",
-            "lgbm",
-            "rf",
-            "xgboost",
-            "extra_tree",
-            "xgb_limitdepth",
-            "lrl1",
+            e
+            for e in [
+                "catboost",
+                "lgbm",
+                "rf",
+                "xgboost",
+                "extra_tree",
+                "xgb_limitdepth",
+                "lrl1",
+            ]
+            if e != "catboost" or importlib.util.find_spec("catboost") is not None
         ],
     }
 

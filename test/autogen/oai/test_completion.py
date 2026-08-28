@@ -3,9 +3,13 @@ import os
 import sys
 from functools import partial
 
-import datasets
 import numpy as np
 import pytest
+
+try:
+    import datasets
+except ImportError:
+    datasets = None
 
 from flaml import autogen
 from flaml.autogen.code_utils import (
@@ -166,6 +170,7 @@ def test_nocontext():
     reason="do not run on windows",
 )
 def test_humaneval(num_samples=1):
+    pytest.importorskip("datasets")
     gpt35_config_list = autogen.config_list_from_json(
         env_or_file="OAI_CONFIG_LIST",
         filter_dict={
@@ -326,6 +331,7 @@ def test_humaneval(num_samples=1):
 
 
 def test_math(num_samples=-1):
+    pytest.importorskip("datasets")
     try:
         import diskcache
         import openai

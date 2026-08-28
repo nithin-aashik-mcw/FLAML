@@ -1,3 +1,4 @@
+import importlib.util
 from datetime import datetime
 
 import numpy as np
@@ -76,10 +77,11 @@ def test_prep():
     lgbm.fit(X, y)
     print(lgbm.feature_names_in_)
     print(lgbm.feature_importances_)
-    cat = CatBoostEstimator(n_estimators=4)
-    cat.fit(X, y)
-    print(cat.feature_names_in_)
-    print(cat.feature_importances_)
+    if importlib.util.find_spec("catboost") is not None:
+        cat = CatBoostEstimator(n_estimators=4)
+        cat.fit(X, y)
+        print(cat.feature_names_in_)
+        print(cat.feature_importances_)
     knn = KNeighborsEstimator(task="regression")
     knn.fit(X, y)
     print(knn.feature_names_in_)

@@ -43,6 +43,7 @@ def custom_metric(
 
 @pytest.mark.skipif(sys.platform == "darwin", reason="do not run on mac os")
 def test_custom_metric():
+    pytest.importorskip("datasets")
     import requests
 
     from flaml import AutoML

@@ -117,6 +117,7 @@ class TestRegression(unittest.TestCase):
         print(automl.best_loss)
         print(automl.best_config_train_time)
 
+        pytest.importorskip("catboost")
         settings.update(
             {
                 "estimator_list": ["catboost"],
@@ -329,6 +330,8 @@ def test_reproducibility_of_regression_models(estimator: str):
     In this test we take the best regression model which FLAML provided us, and then retrain and test it on the
     same folds, to verify that the result is reproducible.
     """
+    if estimator == "catboost":
+        pytest.importorskip("catboost")
     automl = AutoML()
     automl_settings = {
         "max_iter": 2,
@@ -376,6 +379,7 @@ def test_reproducibility_of_catboost_regression_model():
     In this test we take the best catboost regression model which FLAML provided us, and then retrain and test it on the
     same folds, to verify that the result is reproducible.
     """
+    pytest.importorskip("catboost")
     automl = AutoML()
     automl_settings = {
         "time_budget": 7,
@@ -485,6 +489,8 @@ def test_reproducibility_of_underlying_regression_models(estimator: str):
     In this test we take the best model which FLAML provided us, extract the underlying model,
      before retraining and testing it on the same folds - to verify that the result is reproducible.
     """
+    if estimator == "catboost":
+        pytest.importorskip("catboost")
     automl = AutoML()
     automl_settings = {
         "max_iter": 5,

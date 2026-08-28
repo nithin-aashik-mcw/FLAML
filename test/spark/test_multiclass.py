@@ -305,6 +305,7 @@ class TestMultiClass(unittest.TestCase):
         "Please run pytest in the root directory of FLAML, i.e., the directory that contains the setup.py file",
     )
     def test_time_limit(self):
+        pytest.importorskip("catboost")
         automl_experiment = AutoML()
         automl_experiment.add_learner(learner_name="large_lgbm", learner_class=MyLargeLGBM)
         automl_experiment.add_learner(learner_name="large_xgb", learner_class=MyLargeXGB)

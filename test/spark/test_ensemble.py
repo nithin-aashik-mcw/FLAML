@@ -38,6 +38,7 @@ class TestEnsemble(unittest.TestCase):
         "Please run pytest in the root directory of FLAML, i.e., the directory that contains the setup.py file",
     )
     def test_ensemble(self):
+        pytest.importorskip("catboost")
         automl = AutoML()
         automl.add_learner(learner_name="RGF", learner_class=MyRegularizedGreedyForest)
         X_train, y_train = load_wine(return_X_y=True)

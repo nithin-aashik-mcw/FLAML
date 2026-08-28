@@ -1,3 +1,4 @@
+import importlib.util
 import unittest
 from datetime import datetime
 from test.conftest import evaluate_cv_folds_with_underlying_model
@@ -34,6 +35,7 @@ class MyLargeLGBM(LGBMEstimator):
 
 class TestClassification(unittest.TestCase):
     def test_preprocess(self):
+        catboost_installed = importlib.util.find_spec("catboost") is not None
         automl = AutoML()
         X = pd.DataFrame(
             {
@@ -95,7 +97,7 @@ class TestClassification(unittest.TestCase):
             "time_budget": 3,
             "task": "classification",
             "n_jobs": 1,
-            "estimator_list": ["xgboost", "catboost", "kneighbor"],
+            "estimator_list": [e for e in ["xgboost", "catboost", "kneighbor"] if catboost_installed or e != "catboost"],
             "eval_method": "cv",
             "n_splits": 3,
             "metric": "accuracy",
@@ -111,7 +113,7 @@ class TestClassification(unittest.TestCase):
             "time_budget": 6,
             "task": "classification",
             "n_jobs": 1,
-            "estimator_list": ["catboost", "lrl2"],
+            "estimator_list": [e for e in ["catboost", "lrl2"] if catboost_installed or e != "catboost"],
             "eval_method": "cv",
             "n_splits": 3,
             "metric": "accuracy",
@@ -152,7 +154,7 @@ class TestClassification(unittest.TestCase):
             "time_budget": 3,
             "task": "classification",
             "n_jobs": 1,
-            "estimator_list": ["lgbm", "catboost", "kneighbor"],
+            "estimator_list": [e for e in ["lgbm", "catboost", "kneighbor"] if catboost_installed or e != "catboost"],
             "eval_method": "cv",
             "n_splits": 3,
             "metric": "accuracy",
@@ -449,6 +451,8 @@ def test_reproducibility_of_classification_models(estimator: str):
     In this test we take the best model which FLAML provided us, and then retrain and test it on the
     same folds, to verify that the result is reproducible.
     """
+    if estimator == "catboost":
+        pytest.importorskip("catboost")
     automl = AutoML()
     automl_settings = {
         "max_iter": 5,
@@ -514,6 +518,8 @@ def test_reproducibility_of_underlying_classification_models(estimator: str):
     In this test we take the best model which FLAML provided us, extract the underlying model,
      before retraining and testing it on the same folds - to verify that the result is reproducible.
     """
+    if estimator == "catboost":
+        pytest.importorskip("catboost")
     automl = AutoML()
     automl_settings = {
         "max_iter": 5,
