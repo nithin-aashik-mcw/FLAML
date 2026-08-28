@@ -16,6 +16,7 @@ except ImportError:
     sys.platform == "darwin" or not _transformers_installed, reason="do not run on mac os or transformers not installed"
 )
 def test_custom_hp_nlp():
+    pytest.importorskip("datasets")
     from test.nlp.utils import get_automl_settings, get_toy_data_seqclassification
 
     X_train, y_train, X_val, y_val, X_test = get_toy_data_seqclassification()

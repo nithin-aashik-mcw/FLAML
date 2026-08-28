@@ -125,6 +125,7 @@ def test_models(budget=3):
 
 
 def test_numpy():
+    pytest.importorskip("statsmodels")
     X_train = np.arange("2014-01", "2021-01", dtype="datetime64[M]")
     y_train = np.random.random(size=len(X_train))
     automl = AutoML()
@@ -624,6 +625,8 @@ def test_forecast_panel(budget=30):
 
 
 def test_cv_step():
+    pytest.importorskip("statsmodels")
+    pytest.importorskip("matplotlib")
     n = 300
     time_col = "date"
     df = pd.DataFrame(

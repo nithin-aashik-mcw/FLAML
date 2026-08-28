@@ -9,6 +9,8 @@ try:
 except ImportError:
     pytest.skip("transformers not installed", allow_module_level=True)
 
+pytest.importorskip("datasets")
+
 from utils import (
     get_automl_settings,
     get_toy_data_binclassification,

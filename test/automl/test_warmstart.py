@@ -107,7 +107,12 @@ class TestWarmStart(unittest.TestCase):
         print(automl.best_config_per_estimator)
 
     def test_FLAML_sample_size_in_starting_points(self):
-        from minio.error import ServerError
+        try:
+            from minio.error import ServerError
+        except ImportError:
+
+            class ServerError(Exception):
+                pass
 
         try:
             from openml.exceptions import OpenMLServerException
