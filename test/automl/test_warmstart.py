@@ -1,6 +1,8 @@
+import platform
 import unittest
 
 import numpy as np
+import pytest
 from sklearn.datasets import load_iris
 
 from flaml import AutoML, tune
@@ -106,6 +108,7 @@ class TestWarmStart(unittest.TestCase):
         automl.fit(X_train, y_train)
         print(automl.best_config_per_estimator)
 
+    @pytest.mark.skipif(platform.machine() == "ARM64", reason="minio is not available on arm64 machine")
     def test_FLAML_sample_size_in_starting_points(self):
         from minio.error import ServerError
 

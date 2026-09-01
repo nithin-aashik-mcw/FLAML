@@ -1,11 +1,14 @@
 import json
 import os
+import platform
 import sys
 from functools import partial
 
-import datasets
 import numpy as np
 import pytest
+
+if platform.machine() != "ARM64":
+    import datasets
 
 from flaml import autogen
 from flaml.autogen.code_utils import (

@@ -1,4 +1,5 @@
 import pickle
+import platform
 import shutil
 import sys
 
@@ -45,12 +46,17 @@ def test_xgboost():
         return
 
 
-@pytest.mark.skipif(sys.platform == "darwin", reason="do not run on mac os")
+@pytest.mark.skipif(
+    sys.platform == "darwin" or platform.machine() == "ARM64",
+    reason="do not run on mac os or arm64 machine",
+)
 def _test_hf_data():
     import requests
-    from datasets import load_dataset
 
     from flaml import AutoML
+
+    if platform.machine() != "ARM64":
+        from datasets import load_dataset
 
     try:
         train_dataset = load_dataset("glue", "mrpc", split="train[:1%]").to_pandas()
