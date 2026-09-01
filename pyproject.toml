@@ -69,7 +69,7 @@ test = [
     "openml; platform_machine != 'ARM64'",
     "statsmodels>=0.12.2",
     "psutil",
-    "transformers[torch]",
+    "transformers[torch]; platform_machine != 'ARM64'",
     "transformers; platform_machine == 'ARM64'",
     "datasets; platform_machine != 'ARM64'",
     "evaluate; platform_machine != 'ARM64'",
