@@ -34,7 +34,7 @@ class MyLargeLGBM(LGBMEstimator):
 
 
 class TestClassification(unittest.TestCase):
-    @pytest.mark.skipif(platform.machine() == "ARM64", reason="catboost is not available on arm64 machine")
+    @pytest.mark.skipif(sys.platform == "win32" and platform.machine() == "ARM64", reason="catboost is not available on win-arm64 machine")
     def test_preprocess(self):
         automl = AutoML()
         X = pd.DataFrame(
@@ -451,8 +451,8 @@ def test_reproducibility_of_classification_models(estimator: str):
     In this test we take the best model which FLAML provided us, and then retrain and test it on the
     same folds, to verify that the result is reproducible.
     """
-    if estimator == "catboost" and platform.machine() == "ARM64":
-        pytest.skip("catboost is not available on arm64 machine")
+    if estimator == "catboost" and sys.platform == "win32" and platform.machine() == "ARM64":
+        pytest.skip("catboost is not available on win-arm64 machine")
     automl = AutoML()
     automl_settings = {
         "max_iter": 5,
@@ -518,8 +518,8 @@ def test_reproducibility_of_underlying_classification_models(estimator: str):
     In this test we take the best model which FLAML provided us, extract the underlying model,
      before retraining and testing it on the same folds - to verify that the result is reproducible.
     """
-    if estimator == "catboost" and platform.machine() == "ARM64":
-        pytest.skip("catboost is not available on arm64 machine")
+    if estimator == "catboost" and sys.platform == "win32" and platform.machine() == "ARM64":
+        pytest.skip("catboost is not available on win-arm64 machine")
     automl = AutoML()
     automl_settings = {
         "max_iter": 5,

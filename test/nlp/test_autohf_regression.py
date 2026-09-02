@@ -8,8 +8,8 @@ from utils import get_automl_settings, get_toy_data_seqregression
 
 
 @pytest.mark.skipif(
-    sys.platform == "darwin" or platform.machine() == "ARM64",
-    reason="do not run on mac os or arm64 machine (datasets not available)",
+    sys.platform == "darwin" or (sys.platform == "win32" and platform.machine() == "ARM64"),
+    reason="do not run on mac os or win-arm64 machine (datasets not available)",
 )
 def test_regression():
     try:

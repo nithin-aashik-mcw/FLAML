@@ -20,7 +20,7 @@ def custom_metric(
     groups_test=None,
     groups_train=None,
 ):
-    if platform.machine() != "ARM64":
+    if sys.platform != "win32" or platform.machine() != "ARM64":
         from datasets import Dataset
 
     if estimator._trainer is None:
@@ -44,8 +44,8 @@ def custom_metric(
 
 
 @pytest.mark.skipif(
-    sys.platform == "darwin" or platform.machine() == "ARM64",
-    reason="do not run on mac os or arm64 machine",
+    sys.platform == "darwin" or (sys.platform == "win32" and platform.machine() == "ARM64"),
+    reason="do not run on mac os or win-arm64 machine",
 )
 def test_custom_metric():
     import requests

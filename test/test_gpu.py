@@ -47,15 +47,15 @@ def test_xgboost():
 
 
 @pytest.mark.skipif(
-    sys.platform == "darwin" or platform.machine() == "ARM64",
-    reason="do not run on mac os or arm64 machine",
+    sys.platform == "darwin" or (sys.platform == "win32" and platform.machine() == "ARM64"),
+    reason="do not run on mac os or win-arm64 machine",
 )
 def _test_hf_data():
     import requests
 
     from flaml import AutoML
 
-    if platform.machine() != "ARM64":
+    if (sys.platform != "win32" or platform.machine() != "ARM64"):
         from datasets import load_dataset
 
     try:

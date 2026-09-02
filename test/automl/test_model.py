@@ -28,7 +28,7 @@ def test_lrl2():
     lr.fit(X, y, budget=1e-5)
 
 
-@pytest.mark.skipif(platform.machine() == "ARM64", reason="catboost is not available on arm64 machine")
+@pytest.mark.skipif(sys.platform == "win32" and platform.machine() == "ARM64", reason="catboost is not available on win-arm64 machine")
 def test_prep():
     X = np.array(
         list(

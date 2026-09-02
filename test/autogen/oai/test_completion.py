@@ -7,7 +7,7 @@ from functools import partial
 import numpy as np
 import pytest
 
-if platform.machine() != "ARM64":
+if sys.platform != "win32" or platform.machine() != "ARM64":
     import datasets
 
 from flaml import autogen
