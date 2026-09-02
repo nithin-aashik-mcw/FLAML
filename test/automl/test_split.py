@@ -1,4 +1,5 @@
 import platform
+import sys
 from urllib.error import URLError
 
 import numpy as np
