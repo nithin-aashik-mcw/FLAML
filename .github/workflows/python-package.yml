@@ -5,13 +5,14 @@ name: Build
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'test_ci']
     paths:
       - 'flaml/**'
       - 'test/**'
       - 'notebook/**'
       - '.github/workflows/python-package.yml'
       - 'setup.py'
+      - 'pyproject.toml'
   pull_request:
     branches: ['main']
     paths:
