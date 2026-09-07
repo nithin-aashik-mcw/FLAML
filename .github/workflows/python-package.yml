@@ -12,6 +12,7 @@ on:
       - 'notebook/**'
       - '.github/workflows/python-package.yml'
       - 'setup.py'
+      - 'pyproject.toml'
   pull_request:
     branches: ['main']
     paths:
